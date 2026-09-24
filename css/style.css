@@ -375,6 +375,7 @@ h3 { font-family: var(--f-body); font-weight: 700; font-size: 19px; line-height:
   position: relative;
   display: flex; flex-direction: column;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   width: min(100%, 372px);
   transition: transform .25s cubic-bezier(.2,.8,.3,1);
 }
@@ -445,16 +446,6 @@ h3 { font-family: var(--f-body); font-weight: 700; font-size: 19px; line-height:
   -webkit-mask: radial-gradient(closest-side circle, transparent calc(100% - 5px), #000 calc(100% - 5px));
   mask: radial-gradient(closest-side circle, transparent calc(100% - 5px), #000 calc(100% - 5px));
 }
-
-/* при выборе по кругу проходит металлический блик */
-.show--foil .show-pic::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(115deg, transparent 36%, rgba(255,255,255,.8) 46%, rgba(255,203,46,.5) 52%, transparent 62%);
-  opacity: 0;
-  transition: opacity .45s;
-}
-.show--foil.is-on .show-pic::after { opacity: 1; }
 
 /* оболочка мыльного пузыря: перелив, блик и кромка */
 .soap-shell {
