@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Banana Club: детские праздники в Волгограде</title>
+<meta name="description" content="Детская игровая с лабиринтом в Волгограде. Аренда зала от 1 700 ₽ в час, аниматоры, шоу мыльных пузырей и фольгированное шоу. Соберите праздник и выберите свободную дату онлайн.">
+<meta name="theme-color" content="#221A33">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Banana Club">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Banana Club: детские праздники в Волгограде">
+<meta property="og:description" content="Игровая с лабиринтом, аниматоры и шоу. Соберите праздник и выберите свободную дату.">
+<meta property="og:image" content="img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="img/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Yeseva+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="#top" aria-label="Banana Club, наверх">
+    <img src="img/logo.svg" alt="" width="38" height="38">
+    <span>Banana Club</span>
+  </a>
+  <a class="top-call" href="tel:+79880197859">+7 988 019-78-59</a>
+  <a class="btn btn-banana top-cta" href="#packages">Собрать праздник</a>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1><span>Детский</span><span>праздник в</span><span>Banana&nbsp;Club</span></h1>
+      <p class="hero-sub">Игровая с лабиринтом, аниматоры и шоу. Соберите праздник на сайте и выберите свободный день, а мы перезвоним и подтвердим.</p>
+      <div class="hero-actions">
+        <a class="btn btn-banana" href="#packages">Собрать праздник</a>
+        <a class="btn btn-line" href="tel:+79880197859">Позвонить</a>
+      </div>
+      <div class="hero-facts">
+        <a class="hero-rating" id="hero-rating" href="#" target="_blank" rel="noopener">
+          <span class="num">4,6</span>
+          <span>31 отзыв<br>на Яндекс Картах</span>
+        </a>
+        <span>Ежедневно <b>9:00–22:00</b><br>ул. Хорошева, 99</span>
+      </div>
+    </div>
+
+    <div class="hero-media">
+      <!-- Когда появится видео, положить его в img/hero.mp4 и раскомментировать:
+      <video src="img/hero.mp4" poster="img/hall.jpg" autoplay muted loop playsinline></video> -->
+      <img src="img/hero.jpg" alt="Детский праздник в Banana Club: дети и родители с аниматорами у фотозоны" width="1280" height="960" fetchpriority="high">
+    </div>
+
+    <canvas id="bubbles" aria-hidden="true"></canvas>
+  </section>
+
+  <section class="section light packages" id="packages" aria-labelledby="packages-h">
+    <canvas id="foilrain" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <h2 id="packages-h">Готовые пакеты</h2>
+      <p class="section-lead">Всё на 3 часа. В пакете дешевле, чем брать то же самое по отдельности.</p>
+      <div class="tickets" id="tickets"></div>
+    </div>
+  </section>
+
+  <section class="section chars glow" id="characters" aria-labelledby="chars-h">
+    <div class="wrap">
+      <h2 id="chars-h">Персонажи</h2>
+      <p class="section-lead" id="chars-lead">Программа от 1 часа, от 3 500 ₽. Цену за конкретного персонажа подтвердим по телефону.</p>
+    </div>
+    <div class="carousel" id="carousel" tabindex="0" aria-label="Персонажи, листайте вбок"></div>
+  </section>
+
+  <section class="section light builder" id="builder" aria-labelledby="builder-h">
+    <div class="wrap">
+      <h2 id="builder-h">Собрать самому</h2>
+      <p class="section-lead">Если готовый пакет не подходит, выберите часы и шоу отдельно.</p>
+
+      <div class="hours">
+        <div>
+          <h3 id="hours-title">Аренда зала</h3>
+          <p class="hours-hint" id="hours-hint">1–2 часа по 1 800 ₽, от 3 часов по 1 700 ₽ за час</p>
+        </div>
+        <div class="stepper" role="group" aria-labelledby="hours-title">
+          <button type="button" id="hours-minus" aria-label="Меньше на час">−</button>
+          <output id="hours-value" aria-live="polite">0 ч</output>
+          <button type="button" id="hours-plus" aria-label="Больше на час">+</button>
+        </div>
+      </div>
+
+      <div class="shows" id="shows"></div>
+    </div>
+  </section>
+
+  <section class="section gallery glow" id="gallery" aria-labelledby="gallery-h">
+    <div class="wrap">
+      <h2 id="gallery-h">Как выглядит клуб</h2>
+      <p class="section-lead">Родители чаще всего хвалят просторную игровую, лабиринт, чистоту и аниматоров.
+        <a class="link" id="reviews-link" href="#" target="_blank" rel="noopener">Читать 31 отзыв на Яндекс Картах</a></p>
+    </div>
+    <div class="photos">
+      <img src="img/group-minions.jpg" alt="Дети с аниматорами в зале клуба" loading="lazy" width="1200" height="900">
+      <img src="img/bubble-show.jpg" alt="Ребёнок внутри большого мыльного пузыря" loading="lazy" width="1024" height="1024">
+      <img src="img/foil-show.jpg" alt="Фольгированное шоу, серебряный дождь" loading="lazy" width="1200" height="900">
+      <img src="img/table.jpg" alt="Праздничный стол и фотозона с шарами" loading="lazy" width="461" height="1024">
+      <img src="img/birthday-5.jpg" alt="День рождения, семья с аниматорами" loading="lazy" width="1024" height="768">
+      <img src="img/new-year.jpg" alt="Новогодний праздник с Эльзой" loading="lazy" width="1200" height="900">
+      <img src="img/decor-30.jpg" alt="Фотозона с шарами для взрослого праздника" loading="lazy" width="540" height="1200">
+      <img src="img/family.jpg" alt="Семья с аниматором на дне рождения" loading="lazy" width="1024" height="768">
+    </div>
+  </section>
+
+  <section class="section booking" id="booking" aria-labelledby="booking-h">
+    <div class="wrap">
+      <h2 id="booking-h">Дата и заявка</h2>
+
+      <div class="cart-box" id="cart-box" aria-live="polite"></div>
+
+      <form id="form" novalidate>
+        <fieldset class="step" id="date-step">
+          <legend>Выберите день</legend>
+          <div class="days" id="days" role="listbox" aria-label="День праздника"></div>
+        </fieldset>
+
+        <fieldset class="step" id="time-step">
+          <legend>Время начала</legend>
+          <p class="step-hint" id="time-hint">Сначала выберите день.</p>
+          <div class="times" id="times" role="listbox" aria-label="Время начала"></div>
+        </fieldset>
+
+        <fieldset class="step">
+          <legend>О празднике</legend>
+          <div class="fields">
+            <label>Ваше имя
+              <input name="name" autocomplete="given-name" required maxlength="60">
+            </label>
+            <label>Телефон
+              <input name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="+7 900 000-00-00" maxlength="20">
+            </label>
+            <label>Сколько будет детей
+              <input name="kids" type="number" inputmode="numeric" min="1" max="60" required>
+            </label>
+            <label>Сколько лет исполняется
+              <input name="age" type="number" inputmode="numeric" min="1" max="99" required>
+            </label>
+            <label>Повод
+              <select name="occasion">
+                <option>День рождения</option>
+                <option>Выпускной</option>
+                <option>Новогодний праздник</option>
+                <option>Другое</option>
+              </select>
+            </label>
+            <label class="wide">Пожелания
+              <textarea name="comment" rows="3" maxlength="600" placeholder="Например: имя именинника, любимый мультфильм, взрослых будет 10"></textarea>
+            </label>
+            <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          </div>
+          <label class="consent">
+            <input type="checkbox" name="consent" required>
+            <span>Даю согласие на обработку персональных данных по <a href="policy.html" target="_blank">политике конфиденциальности</a></span>
+          </label>
+        </fieldset>
+
+        <p class="form-error" id="form-error" role="alert"></p>
+        <button class="btn btn-banana btn-big" type="submit" id="submit">Отправить заявку</button>
+      </form>
+
+      <div class="done" id="done" hidden tabindex="-1">
+        <img src="img/logo.svg" alt="" width="72" height="72">
+        <h3>Заявка отправлена</h3>
+        <p id="done-text"></p>
+        <button type="button" class="btn btn-line" id="again">Собрать ещё один праздник</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section light contacts" id="contacts" aria-labelledby="contacts-h">
+    <div class="wrap contacts-in">
+      <div>
+        <h2 id="contacts-h">Как нас найти</h2>
+        <p class="addr">Волгоград, ул. Хорошева, 99<br>Цокольный этаж</p>
+        <p>Ежедневно с 9:00 до 22:00 по записи</p>
+        <p><a class="big-phone" href="tel:+79880197859">+7 988 019-78-59</a></p>
+        <p><a class="link" href="https://instagram.com/bananaclub34" target="_blank" rel="noopener">Instagram @bananaclub34</a></p>
+        <img class="entrance" src="img/entrance.jpg" alt="Вход в клуб с улицы, спуск в цокольный этаж" loading="lazy" width="853" height="640">
+      </div>
+      <div class="map">
+        <iframe title="Карта: Banana Club на улице Хорошева, 99" loading="lazy"
+          src="https://yandex.ru/map-widget/v1/?ll=44.480238%2C48.738083&amp;z=16&amp;pt=44.480238%2C48.738083%2Cpm2ywl"></iframe>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p>Banana Club, детская игровая и праздники в Волгограде</p>
+  <p><a href="policy.html">Политика конфиденциальности</a></p>
+</footer>
+
+<div class="cartbar" id="cartbar" hidden>
+  <div class="cartbar-sum">
+    <span class="cartbar-label">Ваш праздник</span>
+    <strong id="cartbar-total">0 ₽</strong>
+  </div>
+  <a class="btn btn-banana" href="#booking" id="cartbar-go">Выбрать дату</a>
+</div>
+
+<div class="demo" id="demo" hidden>Демо-режим: заявки пока никуда не уходят</div>
+
+<script src="js/config.js"></script>
+<script src="js/bubbles.js" defer></script>
+<script src="js/effects.js"></script>
+<script src="js/foilrain.js" defer></script>
+<script src="js/app.js"></script>
+</body>
+</html>
