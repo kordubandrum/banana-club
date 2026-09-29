@@ -67,7 +67,7 @@
     }
     state.chars.forEach(function (id, i) {
       var c = byId(C.characters, id), included = p && i < p.animators;
-      lines.push({ name: "Аниматор: " + c.name, price: included ? 0 : C.animatorPrice, from: !included, inpkg: included, rm: "char:" + id });
+      lines.push({ name: c.other ? "Аниматор: другой персонаж, обсудим по телефону" : "Аниматор: " + c.name, price: included ? 0 : C.animatorPrice, from: !included, inpkg: included, rm: "char:" + id });
       if (!included) total += C.animatorPrice;
     });
     if (p && state.chars.length < p.animators) {
@@ -180,13 +180,9 @@
       if (c.photo) {
         var img = el("img"); img.src = c.photo; img.alt = c.credit ? "Костюм персонажа " + c.name : c.name + ", аниматор Banana Club"; img.loading = "lazy"; img.width = 360; img.height = 480;
         pic.appendChild(img);
-        if (c.credit) {
-          var cr = el("a", "char-credit", "Фото: " + esc(c.credit));
-          cr.href = c.creditUrl; cr.target = "_blank"; cr.rel = "noopener";
-          pic.appendChild(cr);
-        }
+
       } else {
-        var art = el("div", "char-art", esc(c.name));
+        var art = el("div", "char-art" + (c.other ? " char-other" : ""), esc(c.other ? "Любой персонаж" : c.name) + (c.note ? '<small class="char-note">' + esc(c.note) + "</small>" : ""));
         art.style.setProperty("--c", c.bg);
         pic.appendChild(art);
       }

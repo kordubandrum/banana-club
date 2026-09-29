@@ -40,21 +40,18 @@ window.BANANA = {
   ],
 
   // Персонажи. У кого есть photo, показывается фото, у остальных цветная карточка.
-  // credit: фото с Wikimedia Commons по открытой лицензии, подпись с автором и лицензией обязательна.
+  // credit: откуда фото (Wikimedia Commons, автор, лицензия). На сайте не выводится по решению Максима от 29.09.2026.
   // Снятые в клубе фото (Миньон, Карамелька) подписи не требуют. Свои фото костюмов лучше чужих: заменить, когда появятся.
   characters: [
-    { id: "minion", name: "Миньон", photo: "img/chars/minion.jpg" },
+    { id: "other", name: "Другой персонаж", note: "Назовите любого, обсудим по телефону", bg: "#FFD43B", other: true },
+    { id: "minion", name: "Миньон", photo: "img/chars/minion-c.jpg" },
     { id: "elsa", name: "Эльза", photo: "img/chars/elsa-kostyum.jpg",
       credit: "Stefan Schubert, CC BY 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Frozen_cosplay,_Elsa_walking_in_the_city.jpg" },
-    { id: "karamelka", name: "Карамелька", photo: "img/chars/karamelka.jpg" },
+    { id: "karamelka", name: "Карамелька", photo: "img/chars/karamelka-c.jpg" },
     { id: "spiderman", name: "Человек-паук", photo: "img/chars/spiderman.jpg",
       credit: "Miguel Discart, CC BY-SA 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Cosplay_of_Spider-Man_at_Brussels_Comic_Con_2019_(47248209562).jpg" },
-    { id: "sonic", name: "Соник", photo: "img/chars/sonic.jpg",
-      credit: "Sonic and ned, CC BY-SA 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Sonic_and_ned.jpg" },
     { id: "ladybug", name: "Леди Баг", photo: "img/chars/ladybug.jpg",
       credit: "Nicholas Moreau, CC BY-SA 4.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Fan_Expo_Canada_2016_Ladybug_IMG_0114.jpg" },
-    { id: "steve", name: "Стив из Майнкрафта", photo: "img/chars/steve.jpg",
-      credit: "Super Festivals, CC BY 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Animate!_Miami_2014_-_Cosplay_Photobooth_(Saturday)_370.jpg" },
     { id: "racer", name: "Гонщик", photo: "img/chars/racer.jpg",
       credit: "Rose Abrams, CC BY 4.0", creditUrl: "https://commons.wikimedia.org/wiki/File:HCCD25_-_Lightning_McQueen.jpg" },
     { id: "unicorn", name: "Единорожка", photo: "img/chars/unicorn.jpg",
