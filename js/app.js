@@ -29,7 +29,7 @@
   function pkg() { return state.pkg ? byId(C.packages, state.pkg) : null; }
   function totalHours() { var p = pkg(); return p ? p.hours + state.hours : state.hours; }
   function separatePrice(p) {
-    var s = p.hours * rate(p.hours) + p.animators * C.animatorMaxPrice;
+    var s = p.hours * rate(p.hours) + p.animators * C.animatorPrice;
     p.shows.forEach(function (id) { s += byId(C.shows, id).price; });
     return s;
   }
@@ -67,7 +67,7 @@
     }
     state.chars.forEach(function (id, i) {
       var c = byId(C.characters, id), included = p && i < p.animators;
-      lines.push({ name: c.other ? "Аниматор: другой персонаж, обсудим по телефону" : "Аниматор: " + c.name, price: included ? 0 : C.animatorPrice, from: !included, inpkg: included, rm: "char:" + id });
+      lines.push({ name: c.other ? "Аниматор: другой персонаж, обсудим по телефону" : "Аниматор: " + c.name, price: included ? 0 : C.animatorPrice, inpkg: included, rm: "char:" + id });
       if (!included) total += C.animatorPrice;
     });
     if (p && state.chars.length < p.animators) {
@@ -182,7 +182,7 @@
         pic.appendChild(img);
 
       } else {
-        var art = el("div", "char-art" + (c.other ? " char-other" : ""), esc(c.other ? "Любой персонаж" : c.name) + (c.note ? '<small class="char-note">' + esc(c.note) + "</small>" : ""));
+        var art = el("div", "char-art" + (c.other ? " char-other" : ""), esc(c.name) + (c.note ? '<small class="char-note">' + esc(c.note) + "</small>" : ""));
         art.style.setProperty("--c", c.bg);
         pic.appendChild(art);
       }
@@ -204,8 +204,8 @@
     wrap.appendChild(el("div", "carousel-end"));
     wrap.scrollLeft = keep;
     $("chars-lead").textContent = p
-      ? "Один персонаж уже входит в пакет «" + p.name + "». Каждый следующий от " + money(C.animatorPrice) + "."
-      : "Программа от 1 часа, от " + money(C.animatorPrice) + " до " + money(C.animatorMaxPrice) + " в зависимости от персонажа. Точную цену подтвердим по телефону. В пакете любой персонаж без доплаты.";
+      ? "Один персонаж уже входит в пакет «" + p.name + "». Каждый следующий " + money(C.animatorPrice) + "."
+      : "Программа от 1 часа, " + money(C.animatorPrice) + ". Если нужного персонажа нет в списке, выберите «Другой персонаж» и обсудим его по телефону. В пакете любой персонаж без доплаты.";
   }
 
   /* ---------- собрать самому ---------- */

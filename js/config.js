@@ -23,8 +23,7 @@ window.BANANA = {
   longFrom: 3,
   maxHours: 8,
 
-  animatorPrice: 3500,     // самый дешёвый персонаж, цена «от»
-  animatorMaxPrice: 4500,  // самый дорогой персонаж; в пакеты заложена эта цена, поэтому в пакете любой персонаж без доплаты
+  animatorPrice: 4500,     // цена аниматора; за другого персонажа мама может снизить по телефону, выше не бывает
 
   shows: [
     { id: "soap", name: "Шоу мыльных пузырей", price: 2800,
@@ -44,21 +43,21 @@ window.BANANA = {
   // Снятые в клубе фото (Миньон, Карамелька) подписи не требуют. Свои фото костюмов лучше чужих: заменить, когда появятся.
   characters: [
     { id: "other", name: "Другой персонаж", note: "Назовите любого, обсудим по телефону", bg: "#FFD43B", other: true },
-    { id: "minion", name: "Миньон", photo: "img/chars/minion-c.jpg" },
     { id: "elsa", name: "Эльза", photo: "img/chars/elsa-kostyum.jpg",
       credit: "Stefan Schubert, CC BY 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Frozen_cosplay,_Elsa_walking_in_the_city.jpg" },
     { id: "karamelka", name: "Карамелька", photo: "img/chars/karamelka-c.jpg" },
-    { id: "spiderman", name: "Человек-паук", photo: "img/chars/spiderman.jpg",
-      credit: "Miguel Discart, CC BY-SA 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Cosplay_of_Spider-Man_at_Brussels_Comic_Con_2019_(47248209562).jpg" },
     { id: "ladybug", name: "Леди Баг", photo: "img/chars/ladybug.jpg",
       credit: "Nicholas Moreau, CC BY-SA 4.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Fan_Expo_Canada_2016_Ladybug_IMG_0114.jpg" },
-    { id: "racer", name: "Гонщик", photo: "img/chars/racer.jpg",
-      credit: "Rose Abrams, CC BY 4.0", creditUrl: "https://commons.wikimedia.org/wiki/File:HCCD25_-_Lightning_McQueen.jpg" },
     { id: "unicorn", name: "Единорожка", photo: "img/chars/unicorn.jpg",
       credit: "Miguel Discart, CC BY-SA 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Cosplay_of_Rarity_from_My_Little_Pony_at_Brussels_Comic_Con_2019_(40340807043).jpg" },
-    { id: "tiktoker", name: "Тик-токер", bg: "#111111", fg: "#25F4EE" },
-    { id: "nolik", name: "Фиксик Нолик", bg: "#F28C1F", fg: "#2B2340" },
+    { id: "minion", name: "Миньон", photo: "img/chars/minion-c.jpg" },
+    { id: "spiderman", name: "Человек-паук", photo: "img/chars/spiderman.jpg",
+      credit: "Miguel Discart, CC BY-SA 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Cosplay_of_Spider-Man_at_Brussels_Comic_Con_2019_(47248209562).jpg" },
+    { id: "racer", name: "Гонщик", photo: "img/chars/racer.jpg",
+      credit: "Rose Abrams, CC BY 4.0", creditUrl: "https://commons.wikimedia.org/wiki/File:HCCD25_-_Lightning_McQueen.jpg" },
     { id: "batman", name: "Бэтмен", photo: "img/chars/batman.jpg",
-      credit: "William Tung, CC BY-SA 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:San_Diego_Comic-Con_2024_Masquerade_-_Cosplay_of_Batman_2.jpg" }
+      credit: "William Tung, CC BY-SA 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:San_Diego_Comic-Con_2024_Masquerade_-_Cosplay_of_Batman_2.jpg" },
+    { id: "tiktoker", name: "Тик-токер", bg: "#111111", fg: "#25F4EE" },
+    { id: "nolik", name: "Фиксик Нолик", bg: "#F28C1F", fg: "#2B2340" }
   ]
 };
