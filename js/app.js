@@ -29,7 +29,7 @@
   function pkg() { return state.pkg ? byId(C.packages, state.pkg) : null; }
   function totalHours() { var p = pkg(); return p ? p.hours + state.hours : state.hours; }
   function separatePrice(p) {
-    var s = p.hours * rate(p.hours) + p.animators * C.animatorPrice;
+    var s = p.hours * rate(p.hours) + p.animators * C.animatorMaxPrice;
     p.shows.forEach(function (id) { s += byId(C.shows, id).price; });
     return s;
   }
@@ -145,7 +145,7 @@
     wrap.innerHTML = "";
     C.packages.forEach(function (p) {
       var on = state.pkg === p.id, old = separatePrice(p);
-      var items = ["Зал на " + p.hours + " " + hoursWord(p.hours), "Аниматор, персонаж на выбор"];
+      var items = ["Зал на " + p.hours + " " + hoursWord(p.hours), "Аниматор, любой персонаж без доплаты"];
       p.shows.forEach(function (id) { items.push(byId(C.shows, id).name); });
       var t = el("article", "ticket" + (on ? " is-on" : ""));
       t.innerHTML =
@@ -178,8 +178,13 @@
       var card = el("article", "char" + (on ? " is-on" : ""));
       var pic = el("div", "char-pic");
       if (c.photo) {
-        var img = el("img"); img.src = c.photo; img.alt = c.name + ", аниматор Banana Club"; img.loading = "lazy"; img.width = 360; img.height = 480;
+        var img = el("img"); img.src = c.photo; img.alt = c.credit ? "Костюм персонажа " + c.name : c.name + ", аниматор Banana Club"; img.loading = "lazy"; img.width = 360; img.height = 480;
         pic.appendChild(img);
+        if (c.credit) {
+          var cr = el("a", "char-credit", "Фото: " + esc(c.credit));
+          cr.href = c.creditUrl; cr.target = "_blank"; cr.rel = "noopener";
+          pic.appendChild(cr);
+        }
       } else {
         var art = el("div", "char-art", esc(c.name));
         art.style.setProperty("--c", c.bg);
@@ -204,7 +209,7 @@
     wrap.scrollLeft = keep;
     $("chars-lead").textContent = p
       ? "Один персонаж уже входит в пакет «" + p.name + "». Каждый следующий от " + money(C.animatorPrice) + "."
-      : "Программа от 1 часа, от " + money(C.animatorPrice) + ". Цену за конкретного персонажа подтвердим по телефону.";
+      : "Программа от 1 часа, от " + money(C.animatorPrice) + " до " + money(C.animatorMaxPrice) + " в зависимости от персонажа. Точную цену подтвердим по телефону. В пакете любой персонаж без доплаты.";
   }
 
   /* ---------- собрать самому ---------- */
