@@ -216,7 +216,7 @@
     $("hours-title").textContent = p ? "Дополнительные часы" : "Аренда зала";
     $("hours-hint").textContent = p
       ? "Сверх " + p.hours + " часов пакета, " + money(C.hourPriceLong) + " за час"
-      : "1–2 часа по " + money(C.hourPrice) + ", от " + C.longFrom + " часов по " + money(C.hourPriceLong) + " за час";
+      : "От 1 до " + (C.longFrom - 1) + " часов по " + money(C.hourPrice) + ", от " + C.longFrom + " часов по " + money(C.hourPriceLong) + " за час";
     $("hours-value").textContent = state.hours + " ч";
     $("hours-minus").disabled = state.hours <= 0;
     $("hours-plus").disabled = state.hours >= max;
