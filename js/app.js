@@ -5,13 +5,13 @@
   var $ = function (id) { return document.getElementById(id); };
   var STORE_KEY = "banana-cart-v1";
 
-  var state = { pkg: null, hours: 0, chars: [], shows: [], date: null, start: null };
+  var state = { pkg: null, pkgShow: "soap", hours: 0, chars: [], shows: [], date: null, start: null };
   var busy = {};          // { "2026-09-27": [[600, 780], ...] } минуты от полуночи
   var busyLoaded = false;
 
   /* ---------- помощники ---------- */
 
-  function money(n) { return n.toLocaleString("ru-RU") + " ₽"; }
+  function money(n) { return n.toLocaleString("ru-RU") + " ₽"; }
   function hoursWord(n) {
     var m10 = n % 10, m100 = n % 100;
     if (m10 === 1 && m100 !== 11) return "час";
@@ -28,15 +28,25 @@
   function rate(h) { return h >= C.longFrom ? C.hourPriceLong : C.hourPrice; }
   function pkg() { return state.pkg ? byId(C.packages, state.pkg) : null; }
   function totalHours() { var p = pkg(); return p ? p.hours + state.hours : state.hours; }
+  // Шоу, которые входят в пакет: постоянные плюс выбранное клиентом, если в пакете шоу на выбор.
+  function pkgShows(p) {
+    var list = p.shows.slice();
+    if (p.showChoice) list.push(p.showChoice.indexOf(state.pkgShow) >= 0 ? state.pkgShow : p.showChoice[0]);
+    return list;
+  }
   function separatePrice(p) {
     var s = p.hours * rate(p.hours) + p.animators * C.animatorPrice;
-    p.shows.forEach(function (id) { s += byId(C.shows, id).price; });
+    pkgShows(p).forEach(function (id) { s += byId(C.shows, id).price; });
     return s;
   }
-  function inPkgShow(id) { var p = pkg(); return !!p && p.shows.indexOf(id) >= 0; }
+  function inPkgShow(id) { var p = pkg(); return !!p && pkgShows(p).indexOf(id) >= 0; }
+
+  // Персонаж хранится как id из списка или как "custom:Имя", если клиент вписал своего.
+  function isCustom(key) { return key.indexOf("custom:") === 0; }
+  function charName(key) { if (isCustom(key)) return key.slice(7); var c = byId(C.characters, key); return c ? c.name : ""; }
 
   function save() {
-    try { localStorage.setItem(STORE_KEY, JSON.stringify({ pkg: state.pkg, hours: state.hours, chars: state.chars, shows: state.shows })); } catch (e) {}
+    try { localStorage.setItem(STORE_KEY, JSON.stringify({ pkg: state.pkg, pkgShow: state.pkgShow, hours: state.hours, chars: state.chars, shows: state.shows })); } catch (e) {}
   }
   function load() {
     try {
@@ -44,7 +54,8 @@
       if (!s) return;
       state.pkg = byId(C.packages, s.pkg) ? s.pkg : null;
       state.hours = Math.max(0, Math.min(C.maxHours, s.hours | 0));
-      state.chars = (s.chars || []).filter(function (id) { return byId(C.characters, id); });
+      if (byId(C.shows, s.pkgShow)) state.pkgShow = s.pkgShow;
+      state.chars = (s.chars || []).filter(function (id) { return typeof id === "string" && (byId(C.characters, id) || (isCustom(id) && id.length > 7)); });
       state.shows = (s.shows || []).filter(function (id) { return byId(C.shows, id); });
     } catch (e) {}
   }
@@ -54,7 +65,9 @@
   function cartLines() {
     var lines = [], p = pkg(), total = 0;
     if (p) {
-      lines.push({ name: "Пакет «" + p.name + "», " + p.hours + " " + hoursWord(p.hours), price: p.price, rm: "pkg" });
+      var pname = "Пакет «" + p.name + "», " + p.hours + " " + hoursWord(p.hours);
+      if (p.showChoice) pname += ", шоу: " + byId(C.shows, pkgShows(p)[p.shows.length]).short;
+      lines.push({ name: pname, price: p.price, rm: "pkg" });
       total += p.price;
       if (state.hours) {
         lines.push({ name: "Дополнительно " + state.hours + " " + hoursWord(state.hours), price: state.hours * C.hourPriceLong, rm: "hours" });
@@ -66,8 +79,8 @@
       total += state.hours * r;
     }
     state.chars.forEach(function (id, i) {
-      var c = byId(C.characters, id), included = p && i < p.animators;
-      lines.push({ name: c.other ? "Аниматор: другой персонаж, обсудим по телефону" : "Аниматор: " + c.name, price: included ? 0 : C.animatorPrice, inpkg: included, rm: "char:" + id });
+      var included = p && i < p.animators;
+      lines.push({ name: "Аниматор: " + charName(id) + (isCustom(id) ? " (другой персонаж, обсудим по телефону)" : ""), price: included ? 0 : C.animatorPrice, inpkg: included, rm: "char:" + id });
       if (!included) total += C.animatorPrice;
     });
     if (p && state.chars.length < p.animators) {
@@ -150,7 +163,9 @@
       var t = el("article", "ticket" + (on ? " is-on" : ""));
       t.innerHTML =
         '<div class="ticket-main"><h3 class="ticket-name">' + esc(p.name) + '</h3><ul class="ticket-list">' +
-        items.map(function (i) { return "<li>" + esc(i) + "</li>"; }).join("") + "</ul></div>" +
+        items.map(function (i) { return "<li>" + esc(i) + "</li>"; }).join("") +
+        (p.showChoice ? '<li class="ticket-choice">Шоу на выбор:<span class="choice" role="radiogroup" aria-label="Шоу в пакете «' + esc(p.name) + '»"></span></li>' : "") +
+        "</ul></div>" +
         '<div class="ticket-stub"><div><span class="price">' + money(p.price) + '</span>' +
         '<span class="price-old">по отдельности <s>' + money(old) + '</s></span><span class="save">экономия ' + money(old - p.price) + "</span></div></div>";
       var b = el("button", "btn btn-banana", on ? "Убрать пакет" : "Выбрать пакет");
@@ -163,6 +178,22 @@
         changed();
       });
       t.querySelector(".ticket-stub").appendChild(b);
+      if (p.showChoice) {
+        var cur = pkgShows(p)[p.shows.length], box = t.querySelector(".choice");
+        p.showChoice.forEach(function (id) {
+          var sh = byId(C.shows, id), sel = id === cur;
+          var o = el("button", "choice-opt" + (sel ? " is-on" : ""), esc(sh.short));
+          o.type = "button";
+          o.setAttribute("role", "radio");
+          o.setAttribute("aria-checked", sel ? "true" : "false");
+          o.addEventListener("click", function () {
+            state.pkgShow = id;
+            state.shows = state.shows.filter(function (x) { return !inPkgShow(x); });
+            changed();
+          });
+          box.appendChild(o);
+        });
+      }
       wrap.appendChild(t);
     });
   }
@@ -170,42 +201,54 @@
   /* ---------- персонажи ---------- */
 
   function renderChars() {
-    var wrap = $("carousel"), p = pkg();
-    var keep = wrap.scrollLeft;
-    wrap.innerHTML = "";
-    C.characters.forEach(function (c) {
-      var on = state.chars.indexOf(c.id) >= 0;
-      var card = el("article", "char" + (on ? " is-on" : ""));
-      var pic = el("div", "char-pic");
-      if (c.photo) {
-        var img = el("img"); img.src = c.photo; img.alt = c.credit ? "Костюм персонажа " + c.name : c.name + ", аниматор Banana Club"; img.loading = "lazy"; img.width = 360; img.height = 480;
-        pic.appendChild(img);
-
-      } else {
-        var art = el("div", "char-art" + (c.other ? " char-other" : ""), esc(c.name) + (c.note ? '<small class="char-note">' + esc(c.note) + "</small>" : ""));
-        art.style.setProperty("--c", c.bg);
-        pic.appendChild(art);
-      }
-      card.appendChild(pic);
-      var body = el("div", "char-body");
-      body.appendChild(el("div", "char-name", esc(c.name)));
-      var b = el("button", "btn", on ? "Убрать" : "Добавить");
-      b.type = "button";
-      b.setAttribute("aria-pressed", on ? "true" : "false");
-      b.setAttribute("aria-label", (on ? "Убрать " : "Добавить ") + c.name);
-      b.addEventListener("click", function () {
-        if (on) state.chars.splice(state.chars.indexOf(c.id), 1); else state.chars.push(c.id);
-        changed();
-      });
-      body.appendChild(b);
-      card.appendChild(body);
-      wrap.appendChild(card);
+    var p = pkg(), list = $("char-picked");
+    list.innerHTML = "";
+    state.chars.forEach(function (key) {
+      var li = el("li", "picked-item");
+      li.appendChild(el("span", null, esc(charName(key))));
+      var x = el("button", "x", "убрать"); x.type = "button";
+      x.setAttribute("aria-label", "Убрать: " + charName(key));
+      x.addEventListener("click", function () { removeItem("char:" + key); });
+      li.appendChild(x);
+      list.appendChild(li);
     });
-    wrap.appendChild(el("div", "carousel-end"));
-    wrap.scrollLeft = keep;
+    list.hidden = !state.chars.length;
     $("chars-lead").textContent = p
       ? "Один персонаж уже входит в пакет «" + p.name + "». Каждый следующий " + money(C.animatorPrice) + "."
-      : "Программа от 1 часа, " + money(C.animatorPrice) + ". Если нужного персонажа нет в списке, выберите «Другой персонаж» и обсудим его по телефону. В пакете любой персонаж без доплаты.";
+      : "Программа от 1 часа, " + money(C.animatorPrice) + ". Выберите персонажа из списка. Если нужного нет, выберите «Другой персонаж» и впишите его. В пакете любой персонаж без доплаты.";
+  }
+
+  // Выпадающий список строится один раз, чтобы выбор не сбрасывался при пересчёте корзины.
+  function initCharPicker() {
+    var sel = $("char-select"), other = $("char-other"), msg = $("char-msg");
+    var names = C.characters.slice().sort(function (a, b) { return a.name.localeCompare(b.name, "ru"); });
+    sel.appendChild(new Option("Выберите из списка", ""));
+    names.forEach(function (c) { sel.appendChild(new Option(c.name, c.id)); });
+    sel.appendChild(new Option("Другой персонаж", "__other"));
+    function say(t) { msg.textContent = t || ""; }
+    sel.addEventListener("change", function () {
+      other.parentNode.hidden = sel.value !== "__other";
+      say("");
+      if (sel.value === "__other") other.focus();
+    });
+    other.addEventListener("input", function () { say(""); });
+    function add() {
+      var key;
+      if (sel.value === "__other") {
+        var name = other.value.replace(/\s+/g, " ").trim();
+        if (!name) { say("Впишите, какого персонажа позвать."); other.focus(); return; }
+        key = "custom:" + name;
+      } else if (sel.value) {
+        key = sel.value;
+      } else { say("Выберите персонажа из списка."); sel.focus(); return; }
+      if (state.chars.indexOf(key) >= 0) { say("Этот персонаж уже добавлен."); return; }
+      state.chars.push(key);
+      sel.value = ""; other.value = ""; other.parentNode.hidden = true;
+      say("Добавлено: " + charName(key) + ".");
+      changed();
+    }
+    $("char-add").addEventListener("click", add);
+    other.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); add(); } });
   }
 
   /* ---------- собрать самому ---------- */
@@ -470,6 +513,7 @@
 
   function init() {
     load();
+    initCharPicker();
     var rl = $("reviews-link"); if (rl) rl.href = C.reviewsUrl;
     var hr = $("hero-rating"); if (hr) hr.href = C.reviewsUrl;
     reveal();

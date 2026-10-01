@@ -26,38 +26,46 @@ window.BANANA = {
   animatorPrice: 4500,     // цена аниматора; за другого персонажа мама может снизить по телефону, выше не бывает
 
   shows: [
-    { id: "soap", name: "Шоу мыльных пузырей", price: 2800,
+    { id: "soap", name: "Шоу мыльных пузырей", short: "мыльные пузыри", price: 3000,
       text: "Пузыри больше ребёнка и пузырь, внутри которого можно встать.", photo: "img/bubble-show.jpg" },
-    { id: "foil", name: "Фольгированное шоу", price: 3500,
+    { id: "foil", name: "Фольгированное шоу", short: "фольгированное", price: 3500,
       text: "Серебряный дождь из фольги и серпантина, самые яркие фото праздника.", photo: "img/foil-show.jpg" }
   ],
 
+  // showChoice: шоу на выбор клиента, в пакет входит одно из списка.
   packages: [
-    { id: "light", name: "Лёгкий", hours: 3, animators: 1, shows: [], price: 9200 },
-    { id: "fun", name: "Весёлый", hours: 3, animators: 1, shows: ["soap"], price: 11800 },
+    { id: "light", name: "Лёгкий", hours: 3, animators: 1, shows: [], price: 9000 },
+    { id: "fun", name: "Весёлый", hours: 3, animators: 1, shows: [], showChoice: ["soap", "foil"], price: 12000 },
     { id: "max", name: "Максимум", hours: 3, animators: 1, shows: ["soap", "foil"], price: 15000 }
   ],
 
-  // Персонажи. У кого есть photo, показывается фото, у остальных цветная карточка.
-  // credit: откуда фото (Wikimedia Commons, автор, лицензия). На сайте не выводится по решению Максима от 29.09.2026.
-  // Снятые в клубе фото (Миньон, Карамелька) подписи не требуют. Свои фото костюмов лучше чужих: заменить, когда появятся.
+  // Персонажи для выпадающего списка. На сайте список сортируется по алфавиту,
+  // в конце сам добавляется пункт «Другой персонаж» с полем для своего варианта.
+  // Общее фото аниматоров: img/animators.webp (собрано 01.10.2026).
+  // Отдельные фото костюмов из img/chars больше не выводятся, файлы лежат на месте.
   characters: [
-    { id: "other", name: "Другой персонаж", note: "Назовите любого, обсудим по телефону", bg: "#FFD43B", other: true },
-    { id: "elsa", name: "Эльза", photo: "img/chars/elsa-kostyum.jpg",
-      credit: "Stefan Schubert, CC BY 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Frozen_cosplay,_Elsa_walking_in_the_city.jpg" },
-    { id: "karamelka", name: "Карамелька", photo: "img/chars/karamelka-c.jpg" },
-    { id: "ladybug", name: "Леди Баг", photo: "img/chars/ladybug.jpg",
-      credit: "Nicholas Moreau, CC BY-SA 4.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Fan_Expo_Canada_2016_Ladybug_IMG_0114.jpg" },
-    { id: "unicorn", name: "Единорожка", photo: "img/chars/unicorn.jpg",
-      credit: "Miguel Discart, CC BY-SA 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Cosplay_of_Rarity_from_My_Little_Pony_at_Brussels_Comic_Con_2019_(40340807043).jpg" },
-    { id: "minion", name: "Миньон", photo: "img/chars/minion-c.jpg" },
-    { id: "spiderman", name: "Человек-паук", photo: "img/chars/spiderman.jpg",
-      credit: "Miguel Discart, CC BY-SA 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:Cosplay_of_Spider-Man_at_Brussels_Comic_Con_2019_(47248209562).jpg" },
-    { id: "racer", name: "Гонщик", photo: "img/chars/racer.jpg",
-      credit: "Rose Abrams, CC BY 4.0", creditUrl: "https://commons.wikimedia.org/wiki/File:HCCD25_-_Lightning_McQueen.jpg" },
-    { id: "batman", name: "Бэтмен", photo: "img/chars/batman.jpg",
-      credit: "William Tung, CC BY-SA 2.0", creditUrl: "https://commons.wikimedia.org/wiki/File:San_Diego_Comic-Con_2024_Masquerade_-_Cosplay_of_Batman_2.jpg" },
-    { id: "tiktoker", name: "Тик-токер", bg: "#111111", fg: "#25F4EE" },
-    { id: "nolik", name: "Фиксик Нолик", bg: "#F28C1F", fg: "#2B2340" }
+    { id: "batman", name: "Бэтмен" },
+    { id: "chase", name: "Гонщик (Щенячий патруль)" },
+    { id: "gru", name: "Грю (Гадкий я)" },
+    { id: "unicorn", name: "Единорожка" },
+    { id: "karamelka", name: "Карамелька (Три кота)" },
+    { id: "kompot", name: "Компот (Три кота)" },
+    { id: "korzhik", name: "Коржик (Три кота)" },
+    { id: "ladybug", name: "Леди Баг" },
+    { id: "leonardo", name: "Леонардо (Черепашки-ниндзя)" },
+    { id: "lucy", name: "Люси (Гадкий я)" },
+    { id: "michelangelo", name: "Микеланджело (Черепашки-ниндзя)" },
+    { id: "mickey", name: "Микки Маус" },
+    { id: "minion", name: "Миньон" },
+    { id: "racer", name: "Молния Маккуин (Тачки)" },
+    { id: "nolik", name: "Нолик (Фиксики)" },
+    { id: "penguin", name: "Пингвин" },
+    { id: "peppa", name: "Свинка Пеппа" },
+    { id: "simka", name: "Симка (Фиксики)" },
+    { id: "supergirl", name: "Супергёрл" },
+    { id: "catnoir", name: "Супер-Кот" },
+    { id: "tiktoker", name: "Тик-токер" },
+    { id: "spiderman", name: "Человек-паук" },
+    { id: "elsa", name: "Эльза" }
   ]
 };

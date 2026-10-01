@@ -73,9 +73,28 @@
   <section class="section chars glow" id="characters" aria-labelledby="chars-h">
     <div class="wrap">
       <h2 id="chars-h">Персонажи</h2>
-      <p class="section-lead" id="chars-lead">Программа от 1 часа, 4 500 ₽. Если нужного персонажа нет в списке, выберите «Другой персонаж» и обсудим его по телефону.</p>
+      <p class="section-lead" id="chars-lead">Программа от 1 часа, 4 500 ₽. Выберите персонажа из списка. Если нужного нет, выберите «Другой персонаж» и впишите его.</p>
     </div>
-    <div class="carousel" id="carousel" tabindex="0" aria-label="Персонажи, листайте вбок"></div>
+    <figure class="team">
+      <img src="img/animators.webp" srcset="img/animators-1000.webp 1000w, img/animators.webp 1996w" sizes="(min-width: 1100px) 1060px, 100vw"
+        alt="Аниматоры Banana Club в костюмах: Микки Маус, Карамелька, Супергёрл, Человек-паук, Леди Баг, Свинка Пеппа, Гонщик, Коржик, Компот, Супер-Кот, Пингвин, Грю, Миньон, Люси, Черепашки-ниндзя, Нолик и Симка"
+        loading="lazy" width="1996" height="1118">
+    </figure>
+    <div class="wrap">
+      <div class="pick">
+        <div class="fields pick-fields">
+          <label>Персонаж
+            <select id="char-select"></select>
+          </label>
+          <label hidden>Какого персонажа позвать
+            <input id="char-other" maxlength="40" placeholder="Например, Человек-муравей" autocomplete="off">
+          </label>
+        </div>
+        <button class="btn btn-banana" type="button" id="char-add">Добавить</button>
+        <p class="pick-msg" id="char-msg" aria-live="polite"></p>
+        <ul class="picked" id="char-picked" hidden></ul>
+      </div>
+    </div>
   </section>
 
   <section class="section light builder" id="builder" aria-labelledby="builder-h">

@@ -283,66 +283,64 @@ h3 { font-family: var(--f-body); font-weight: 700; font-size: 19px; line-height:
 
 /* ——— персонажи ——— */
 .chars { overflow: hidden; }
-.carousel {
-  display: flex; gap: 16px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: 26px var(--gutter) 14px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,246,227,.25) transparent;
-}
-.char {
-  flex: 0 0 min(64vw, 236px);
-  scroll-snap-align: start;
-  display: flex; flex-direction: column;
-  background: var(--sliva);
-  border-radius: 120px 120px var(--r-mid) var(--r-mid);
-  overflow: hidden;
-  transition: transform .25s cubic-bezier(.2,.8,.3,1), box-shadow .25s;
-}
-.char:hover { transform: translateY(-5px); }
-.char.is-on { box-shadow: inset 0 0 0 2px var(--banan), 0 20px 44px -22px rgba(255,203,46,.7); }
-.char-pic { aspect-ratio: 3 / 3.5; overflow: hidden; position: relative; }
-.char-pic img { width: 100%; height: 100%; object-fit: cover; }
-/* карточка персонажа без фото: фирменный узор из пузырей */
-.char-art {
-  width: 100%; height: 100%;
-  display: grid; place-items: center; text-align: center;
-  padding: 26px 18px;
-  font: 400 27px/1.08 var(--f-head);
+.team {
   position: relative;
-  isolation: isolate;
+  max-width: var(--max);
+  margin: 22px auto 0;
+  padding: 0 var(--gutter);
 }
-.char-art {
-  --c: var(--banan);
-  background-color: var(--sliva);
-  background-image:
-    radial-gradient(62% 48% at 50% 26%, color-mix(in srgb, var(--c) 62%, transparent), transparent 72%),
-    linear-gradient(180deg, color-mix(in srgb, var(--c) 26%, transparent), transparent 70%);
-  color: var(--t-light);
-}
-.char-art::before {
+/* тёплое свечение за группой, чтобы тёмные костюмы не сливались с фоном */
+.team::before {
   content: "";
-  position: absolute; inset: 0; z-index: -1;
-  background:
-    radial-gradient(circle at 26% 20%, rgba(255,255,255,.16) 0 12%, transparent 12.5%),
-    radial-gradient(circle at 74% 33%, rgba(255,255,255,.1) 0 8%, transparent 8.5%),
-    radial-gradient(circle at 60% 76%, rgba(255,255,255,.12) 0 15%, transparent 15.5%),
-    radial-gradient(circle at 20% 70%, rgba(255,255,255,.07) 0 10%, transparent 10.5%);
+  position: absolute; inset: 8% 4% 0; z-index: 0;
+  background: radial-gradient(60% 62% at 50% 55%, rgba(255,203,46,.30), rgba(255,122,69,.10) 55%, transparent 75%);
+  filter: blur(10px);
 }
-.char-note { display: block; margin-top: 10px; font: 500 14px/1.35 var(--f-body, inherit); opacity: .85; }
-.char-other { background-color: #3a2a12; }
-.char-body {
-  padding: 16px 16px 18px;
-  display: grid; gap: 12px;
-  border-top: 1px solid var(--linia-d);
+.team img { position: relative; z-index: 1; display: block; width: 100%; height: auto; }
+
+.pick { margin-top: 26px; display: grid; gap: 14px; max-width: 560px; }
+.pick-fields { gap: 14px; grid-template-columns: 1fr !important; }
+.pick select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23FFCB2E' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  padding-right: 46px;
+  cursor: pointer;
 }
-.char-name { font-weight: 600; font-size: 16px; line-height: 1.3; min-height: 2.6em; }
-.char .btn { min-height: 46px; width: 100%; font-size: 15px; }
-.char .btn { background: rgba(255,246,227,.1); color: var(--t-light); }
-.char .btn:hover { background: rgba(255,246,227,.18); }
-.char.is-on .btn { background: var(--banan); color: var(--t-dark); box-shadow: none; }
-.carousel-end { flex: 0 0 1px; }
+.pick select option { color: var(--t-dark); background: var(--sneg); }
+.pick-msg { min-height: 1.4em; margin: 0; font-size: 15px; color: var(--t-light-2); }
+.picked[hidden] { display: none; }
+.picked { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.picked-item {
+  display: inline-flex; align-items: baseline; gap: 10px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255,203,46,.14);
+  box-shadow: inset 0 0 0 1px rgba(255,203,46,.5);
+  font-weight: 600; font-size: 16px;
+}
+.picked-item .x {
+  border: 0; background: none; padding: 0;
+  color: var(--t-light-2); font-size: 14px;
+  text-decoration: underline; text-underline-offset: 3px;
+  transition: color .18s;
+}
+.picked-item .x:hover { color: var(--karamel); }
+
+/* выбор шоу внутри пакета */
+.ticket-choice .choice { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.choice-opt {
+  min-height: 40px; padding: 0 14px;
+  border: 1px solid var(--linia); border-radius: 999px;
+  background: transparent; color: var(--t-dark);
+  font: 600 15px/1 var(--f-body);
+  cursor: pointer;
+  transition: background-color .18s, border-color .18s, color .18s;
+}
+.choice-opt:hover { border-color: var(--karamel); }
+.choice-opt.is-on { background: var(--karamel); border-color: var(--karamel); color: var(--sneg); }
+.ticket.is-on .choice-opt { color: var(--t-light); border-color: var(--linia-d); }
+.ticket.is-on .choice-opt.is-on { background: var(--banan); border-color: var(--banan); color: var(--t-dark); }
 
 /* ——— собрать самому ——— */
 .builder .hours {
@@ -699,9 +697,6 @@ h3 { font-family: var(--f-body); font-weight: 700; font-size: 19px; line-height:
     padding-left: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
   }
   .photos img { height: 340px; }
-  .carousel {
-    padding-left: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
-  }
   .contacts-in { grid-template-columns: 1fr 1.15fr; align-items: stretch; }
   .cart-box { padding: 32px 34px 34px; }
   .cartbar { justify-content: center; gap: 48px; }
