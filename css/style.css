@@ -296,7 +296,15 @@ h3 { font-family: var(--f-body); font-weight: 700; font-size: 19px; line-height:
   background: radial-gradient(60% 62% at 50% 55%, rgba(255,203,46,.30), rgba(255,122,69,.10) 55%, transparent 75%);
   filter: blur(10px);
 }
-.team img { position: relative; z-index: 1; display: block; width: 100%; height: auto; }
+.team img, .team video { position: relative; z-index: 1; display: block; width: 100%; height: auto; }
+.team video { aspect-ratio: 832 / 480; object-fit: cover; background: transparent; }
+/* у фото и видео свой тёмный фон: края плавно растворяются в фоне раздела */
+.team img, .team video {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent), linear-gradient(180deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent), linear-gradient(180deg, transparent, #000 8%, #000 92%, transparent);
+  mask-composite: intersect;
+}
 
 .pick { margin-top: 26px; display: grid; gap: 14px; max-width: 560px; }
 .pick-fields { gap: 14px; grid-template-columns: 1fr !important; }

@@ -169,3 +169,13 @@
   if (!slow) build();
   window.BananaFX = api;
 })();
+
+/* Видео с аниматорами: при «уменьшить движение» в настройках телефона стоит на паузе, видна обложка. */
+(function () {
+  var v = document.querySelector(".team-video");
+  if (!v || !window.matchMedia) return;
+  var mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  function apply() { if (mq.matches) { v.pause(); v.removeAttribute("autoplay"); } }
+  apply();
+  if (mq.addEventListener) mq.addEventListener("change", apply);
+})();
